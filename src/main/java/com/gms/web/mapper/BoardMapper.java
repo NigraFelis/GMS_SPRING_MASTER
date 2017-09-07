@@ -1,9 +1,13 @@
-package com.gms.web.board;
+package com.gms.web.mapper;
 
 import java.util.List;
 
+import org.springframework.stereotype.Repository;
 
-public interface BoardDAO {
+import com.gms.web.board.ArticleDTO;
+
+@Repository
+public interface BoardMapper {
 	public String insert(ArticleDTO bean);
 	public List<ArticleDTO> selectAll();
 	public List<ArticleDTO> selectById(String id);

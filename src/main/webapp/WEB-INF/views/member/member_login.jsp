@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ include file="member_head.jsp" %>
+
 <div id="container">
 	<div id="login_box">
 		<img src="<%=request.getContextPath()%>/img/login.jpg" alt="" /><br />
@@ -11,4 +11,3 @@
 		<button id="cancel_btn" onclick="window.location.href='../index.jsp'">CANCEL</button>
 	</div>
 </div>
-<%@ include file="../common/footer.jsp" %>

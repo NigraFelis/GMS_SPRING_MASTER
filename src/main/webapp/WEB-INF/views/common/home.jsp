@@ -2,7 +2,6 @@
 <img src="resources/img/loading.gif" alt="" /> 
 <script>
 <%-- location.href="<%=application.getContextPath() %>/auth/login_view"; --%>
-app.path.init("<%=application.getContextPath()%>"); 
+app.path.init("${sessionScope.path.ctx}"); 
 </script>
 
-<%-- <%=application.getContextPath()%> --%>
