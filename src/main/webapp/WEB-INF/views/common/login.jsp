@@ -4,9 +4,9 @@
 	<form id="login_box" name="login_box" > 
 		<img src="<%=application.getContextPath()%>/resources/img/login.jpg" style="width:400px;" alt="" /><br />
 		<span id="login_id">ID</span>
-		<input type="text" id="input_id" name="input_id" value="1"/> <br />
+		<input type="text" id="input_id" name="input_id" value="0"/> <br />
 		<span id="login_pass">PASSWORD</span> 
-		<input type="text" id="input_pass" name="input_pass" value="1"/> <br /><br />
+		<input type="text" id="input_pass" name="input_pass" value="0"/> <br /><br />
 		<input id="loginBtn" type="submit" value="LOGIN" />
 		<input type="hidden" name="action" value="login" />
 		<input type="hidden" name="page" value="main" />
