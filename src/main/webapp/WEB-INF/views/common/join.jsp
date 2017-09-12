@@ -3,6 +3,7 @@
 <div id="container">
 	<form id="join_form" action="member_detail.jsp" method="get">
 		<fieldset>
+		<div style="height:40px;width:300px; color:red;font-size:20px;center;">${result}</div>
 		<legend>관리자 등록</legend>
 		<span id="join_id">ID: </span>
 		<input name="id" type="text" placeholder="아이디" /><br />

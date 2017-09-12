@@ -4,22 +4,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.gms.web.command.CommandDTO;
-/*import com.gms.web.dao.MemberDAO;
-import com.gms.web.dao.MemberDAOImpl;
-import com.gms.web.domain.MajorBean;
-import com.gms.web.domain.MemberBean;
-import com.gms.web.domain.StudentBean;*/
 import com.gms.web.grade.MajorDTO;
+import com.gms.web.mapper.MemberMapper;
 
 @Service
 public class MemberServiceImpl implements MemberService{
-	public static MemberServiceImpl getInstance() {
-		return new MemberServiceImpl();
-	}
-	private MemberServiceImpl(){}
+	@Autowired MemberMapper mapper;
+	@Autowired MemberDTO member;
+	@Autowired MemberService service;
 	@Override
 	public String add(Map<String,Object> map) {
 		System.out.println("member service 진입");
@@ -34,23 +31,32 @@ public class MemberServiceImpl implements MemberService{
 	}
 	@Override
 	public List<?> list(CommandDTO cmd) {
-		return null;
+		
+		return mapper.selectAll(cmd);
 	}
 	@Override
 	public List<?> findByName(CommandDTO cmd) {
 		System.out.println("findByName("+cmd.getSearch()+")");
-		return null;
+		return mapper.selectByName(cmd);
 	}
 
 	@Override
 	public StudentDTO findById(CommandDTO cmd) {
-		return null;
+		return mapper.selectById(cmd);
 	}
 
-	@Override
+	/*@Override
 	public String count(CommandDTO cmd) {
 		
 		return null;
+	}*/
+	
+	@Override
+	public String count() {
+		/*Logger.info("count is {}","entered");*/
+		String count = mapper.count();
+		/*Logger.info("count is {}".count)*/
+		return count;
 	}
 
 	@Override
@@ -66,17 +72,28 @@ public class MemberServiceImpl implements MemberService{
 		return msg;
 	}
 	@Override
-	public Map<String,Object> login(MemberDTO bean) {
+	public Map<String,Object> login(CommandDTO cmd) {
 		Map<String,Object> map=new HashMap<>();
-		CommandDTO cmd=new CommandDTO();
-		cmd.setSearch(bean.getId());
-		MemberDTO m=null;
-		String page=
-		 (m!=null)?
-				(bean.getPassword().equals(m.getPassword()))?
-						"main":"login_fail":"join";
+		member=mapper.login(cmd);
+		String result ="";
+		String page="";
+		
+		if(member!=null){
+			if(cmd.getColumn().equals(member.getPassword())) {
+				result="success";
+				page="auth:common/main.tiles";
+			}else {
+				result="비밀번호가 틀렸습니다";
+				page="public:common/login.tiles";
+			}
+		}else {
+			result="아이디가 없습니다";
+			page="public:common/join.tiles";
+		}
+		
+		map.put("result", result);
 		map.put("page", page);
-		map.put("user", m);
+		map.put("user", member);
 		return map;
 		
 	}

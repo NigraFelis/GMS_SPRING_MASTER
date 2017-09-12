@@ -64,40 +64,41 @@ app.main=(function(){  //최상위 브라우저 종료시 까지 저장되는곳
    var onCreate=function(){
 	   setContentView();
 	    $('.list-group a').eq(0).on('click',function(){
-		   location.href=app.path.ctx()+"/member/add"
+	    	app.controller.moveTo('member','member_add');
 		});
 		$('.list-group a').eq(1).on('click',function(){
-			location.href=app.path.ctx()+"/member/list"
+//			app.controller.list('member','member_list')
+			app.member.list(1);
         });
 		$('.list-group a').eq(2).on('click',function(){
-			location.href=app.path.ctx()+"/member/detail"
+			app.controller.moveTo('member','member_detail');
 		});
 		$('.list-group a').eq(3).on('click',function(){
-			location.href=app.path.ctx()+"/member/delete"
+			app.controller.moveTo('member','member_delete');
 		});
 		$('.list-group a').eq(4).on('click',function(){
-			location.href=app.path.ctx()+"/grade/add"
+			app.controller.moveTo('grade','grade_add');
 		});
 		$('.list-group a').eq(5).on('click',function(){
-			location.href=app.path.ctx()+"/grade/list"
+			app.controller.moveTo('grade','grade_list');
 		});
 		$('.list-group a').eq(6).on('click',function(){
-			location.href=app.path.ctx()+"/grade/detail"
+			app.controller.moveTo('grade','grade_detail');
 		});
 		$('.list-group a').eq(7).on('click',function(){
-			location.href=app.path.ctx()+"/grade/delete"
+			app.controller.moveTo('grade','grade_delete');
 		});
 		$('.list-group a').eq(8).on('click',function(){
-			location.href=app.path.ctx()+"/board/write"
+			app.controller.moveTo('board','board_write');
 		});
 		$('.list-group a').eq(9).on('click',function(){
-			location.href=app.path.ctx()+"/board/list"
+			app.controller.moveTo('board','board_list');
 		});
 		$('.list-group a').eq(10).on('click',function(){
-			location.href=app.path.ctx()+"/board/detail"
+			app.controller.moveTo('board','board_detail');
 		});
 		$('.list-group a').eq(11).on('click',function(){
-			location.href=app.path.ctx()+"/board/delete"
+			app.controller.moveTo('board','board_delete');
 		});
    };
    var setContentView=function(){
@@ -131,8 +132,9 @@ app.auth = (function() {
 	            return false;
 	         }
 	         
-	         $('#login_box').attr('action', app.path.ctx() + "/auth/main");
+	         $('#login_box').attr('action', app.path.ctx() + "/auth/login");
 	         $('#login_box').attr('method', 'post');
+	         
 	         return true;
 	    	 
 	      });
@@ -154,53 +156,54 @@ app.navbar=(function(){
    var onCreate=function(){
 	    setContentView();
 	    $('#main').on('click',function(){
-	    	app.controller.moveTo('auth','main');
+	    	app.controller.moveTo('common','main');
 		});
 		$('#logout').on('click',function(){
-			app.controller.logout('auth','logout');
+			app.controller.moveTo('common','login');
 		});
 		
 		
 		$('.dropdown-menu a').eq(0).on('click',function(){
-			app.controller.moveTo('member','add');
+			app.controller.moveTo('member','member_add');
 		});
 		$('.dropdown-menu a').eq(1).on('click',function(){
-			app.controller.moveTo('member','list');
+//			app.controller.list('member','member_list');
+			app.member.list(1);
        });
 		$('.dropdown-menu a').eq(2).on('click',function(){
-			app.controller.moveTo('member','detail');
+			app.controller.moveTo('member','member_detail');
 		});
 		$('.dropdown-menu a').eq(3).on('click',function(){
-			app.controller.moveTo('member','delete');
+			app.controller.moveTo('member','member_delete');
 		});
 		
 		
     
 		$('.dropdown-menu a').eq(4).on('click',function(){
-			app.controller.moveTo('grade','add');
+			app.controller.moveTo('grade','grade_add');
 		});
 		$('.dropdown-menu a').eq(5).on('click',function(){
-			app.controller.moveTo('grade','list');
+			app.controller.moveTo('grade','grade_list');
 		});
 		$('.dropdown-menu a').eq(6).on('click',function(){
-			app.controller.moveTo('grade','detail');
+			app.controller.moveTo('grade','grade_detail');
 		});
 		$('.dropdown-menu a').eq(7).on('click',function(){
-			app.controller.moveTo('grade','delete');
+			app.controller.moveTo('grade','grade_delete');
 		});
 		
 		
 		$('.dropdown-menu a').eq(8).on('click',function(){
-			app.controller.moveTo('board','write');
+			app.controller.moveTo('board','board_write');
 		});
 		$('.dropdown-menu a').eq(9).on('click',function(){
-			app.controller.moveTo('board','list');
+			app.controller.moveTo('board','board_list');
 		});
 		$('.dropdown-menu a').eq(10).on('click',function(){
-			app.controller.moveTo('board','detail');
+			app.controller.moveTo('board','board_detail');
 		});
 		$('.dropdown-menu a').eq(11).on('click',function(){
-			app.controller.moveTo('board','delete');
+			app.controller.moveTo('board','board_delete');
 		});
 	
 		
@@ -240,12 +243,14 @@ app.member=(function(){
 	};
 	var setContentView=function(){
 		//alert('meberDetail');
-
 	};
+	var list=function(pno){
+		location.href=app.path.ctx()+'/member/member_list/'+pno;
+	}
 	
 	return {
 		init : init,
-		
+		list : list
 	};
 })();
 
@@ -288,7 +293,7 @@ app.controller=(function(){
 	};
 	var moveTo=function(dir,page){
 		location.href=
-		app.path.ctx()+'/'+dir+'/'+page;
+		app.path.ctx()+'/common/path/'+dir+'/'+page;
 	};
 	var logout = function(dir,page){
 		location.href=
@@ -298,10 +303,15 @@ app.controller=(function(){
 	var deleteTarget = function(target){
 		prompt(target+'의 ID?');
 	};
-	var list = function(dir,page,pageNumber){
+	var list = function(dir,page){
+		location.href=
+			app.path.ctx()+'/'+dir+'/'+page;
+	};
+	
+	/*var list = function(dir,page,pageNumber){
 		location.href=
         app.path.ctx()+"/"+dir+".do?action=list&page="+page+"&pageNumber="+pageNumber;
-    };
+    };*/
 	var updateStudent = function (id,email){
 		alert('수정할 id'+id);
 		location.href=app.path.ctx()+"/member.do?action=update&page=member_update&id="+id+"&email="+email;
@@ -316,8 +326,9 @@ app.controller=(function(){
 			app.path.ctx()+"/member.do?action=detail&page=member_detail&id="+id;
 	};
 	var searchStudent= function(){
-		var search=document.getElementById('search').value;
-		location.href=app.path.ctx()+"/member.do?action=search&page=member_list&search="+search;
+		var search=$('#search').val();
+		alert('검색버튼 클릭 :'+search);
+		location.href=app.path.ctx()+"/member/search/"+search;
 	};
 
 	 

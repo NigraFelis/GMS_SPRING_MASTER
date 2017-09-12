@@ -3,7 +3,7 @@ package com.gms.web.grade;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-@Controller
+/*@Controller
 @RequestMapping("/grade")
 public class GradeController {
 	@RequestMapping("/add")
@@ -23,3 +23,4 @@ public class GradeController {
 		return"auth:grade/grade_delete.tiles";
 	}
 }
+*/

@@ -10,7 +10,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 
-@Lazy @Component @Data
+@Data @Lazy @Component
 public class CommandDTO implements Commandable{
 	@Getter 
 	protected String action,pageNumber,

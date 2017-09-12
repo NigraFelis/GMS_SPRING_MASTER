@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/board")
 public class BoardController {
-	@RequestMapping("/write")
+/*	@RequestMapping("/write")
 	public String write() {
 		return"auth:board/board_write.tiles";
 	}
@@ -20,5 +20,5 @@ public class BoardController {
 	@RequestMapping("/delete")
 	public String main() {
 		return"auth:board/board_delete.tiles";
-	}
+	}*/
 }

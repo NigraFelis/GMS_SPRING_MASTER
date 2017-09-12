@@ -16,31 +16,69 @@
   
 <mapper namespace="com.gms.web.mapper.MemberMapper">
 
+<select id="count" resultType="string">
+	select count(*) as count from member
+</select>
+
+<select id="login" resultType="com.gms.web.member.MemberDTO"
+				parameterType="com.gms.web.command.CommandDTO"
+>
+	SELECT
+		member_id AS id,
+		name,
+		password,
+		ssn,
+		regdate,
+		phone,
+		email,
+		profile
+	FROM member where member_id = #{search}
+</select>
+
 
 <insert id="insert">
   <selectKey keyProperty="id" resultType="String" order="BEFORE">
     <if test="_databaseId == 'hanbit'">
       select seq_users.nextval from dual
-    </if>
-   
+    </if>   
   </selectKey>
-INSERT INTO Member(member_id,name,password,ssn,regdate,phone,email,profile)
-values(#{id},#{name},#{password},#{ssn},now(),#{phone},#{email},#{profile});
+	INSERT INTO Member(member_id,name,password,ssn,regdate,phone,email,profile)
+	values(#{id},#{name},#{password},#{ssn},now(),#{phone},#{email},#{profile});
 </insert>
 
-<select id="selectById" resultType="com.gms.web.member.MemberDTO">
-   select * from Member where id = #{id}
+
+
+
+<select id="selectAll" resultType="com.gms.web.member.StudentDTO"
+				parameterType="com.gms.web.command.CommandDTO"
+>
+select t.*
+	from (select @RNUM := @RNUM +1 as NUM,s.* 
+	from student s,(select @RNUM := 0)b)t
+	where t.NUM between #{startRow} and #{endRow};
+</select>
+
+
+<select id="selectById" resultType="com.gms.web.member.MemberDTO"
+					parameterType="com.gms.web.command.CommandDTO"
+>
+   select * from Member where member_id like #{search};
 </select>
  
+<!-- <select id="selectByName" resultType="com.gms.web.member.StudentDTO"
+					parameterType="com.gms.web.command.CommandDTO"
+>
+   SELECT * from student where name like '%${search}%';
+</select> -->
  
-<select id="selectByName" resultType="com.gms.web.member.MemberDTO">
-  SELECT * FROM BLOG 
-  WHERE member = ‘ACTIVE’ 
-  <if test="title != null">
-    AND member_id like #{id}
-  </if>
-</select> 
-  
+<select  id="selectByName" resultType="com.gms.web.member.StudentDTO" parameterType="com.gms.web.command.CommandDTO">
+ select t2.*
+     from (select @rnum := @rnum +1 as num, s.*
+          from student s, (select @rnum := 0) b 
+          where name like #{search} 
+          order by num desc) t2
+     where t2.num between #{startRow} and #{endRow} ; 
+</select>
   
 <!--   
 
