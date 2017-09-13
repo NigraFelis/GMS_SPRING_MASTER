@@ -3,16 +3,6 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
-<!--   	
-	public String insert(Map<?,?>map);
-	public List<?> selectAll(CommandDTO cmd);
-	public List<?> selectByName(CommandDTO cmd);
-	public StudentDTO selectById(CommandDTO cmd);
-	public String count(CommandDTO cmd);
-	public String update(MemberDTO bean);
-	public String delete(CommandDTO cmd);
-	public MemberDTO login(CommandDTO cmd); 
--->
   
 <mapper namespace="com.gms.web.mapper.MemberMapper">
 
@@ -36,16 +26,18 @@
 </select>
 
 
-<insert id="insert">
-  <selectKey keyProperty="id" resultType="String" order="BEFORE">
-    <if test="_databaseId == 'hanbit'">
-      select seq_users.nextval from dual
-    </if>   
-  </selectKey>
-	INSERT INTO Member(member_id,name,password,ssn,regdate,phone,email,profile)
-	values(#{id},#{name},#{password},#{ssn},now(),#{phone},#{email},#{profile});
-</insert>
 
+<update id="update" parameterType="com.gms.web.member.MemberDTO">
+UPDATE Member SET phone=#{phone}, email=#{email}, password=#{password}
+where member_id like #{id}
+</update>
+
+
+
+<insert id="insert" parameterType="com.gms.web.member.MemberDTO">
+INSERT INTO member(member_id,name,password,ssn,phone,email,profile,regdate)
+					VALUES(#{id},#{name},#{password},#{ssn},#{phone},#{email},#{profile},now());
+</insert>
 
 
 
@@ -59,136 +51,40 @@ select t.*
 </select>
 
 
-<select id="selectById" resultType="com.gms.web.member.MemberDTO"
+<select id="selectById" resultType="com.gms.web.member.StudentDTO"
 					parameterType="com.gms.web.command.CommandDTO"
 >
-   select * from Member where member_id like #{search};
+   SELECT
+		member_id AS id,
+		name,
+		password,
+		ssn,
+		regdate,
+		phone,
+		email,
+		profile
+	FROM member where member_id like #{search}
 </select>
  
-<!-- <select id="selectByName" resultType="com.gms.web.member.StudentDTO"
-					parameterType="com.gms.web.command.CommandDTO"
->
-   SELECT * from student where name like '%${search}%';
-</select> -->
+
  
 <select  id="selectByName" resultType="com.gms.web.member.StudentDTO" parameterType="com.gms.web.command.CommandDTO">
  select t2.*
      from (select @rnum := @rnum +1 as num, s.*
           from student s, (select @rnum := 0) b 
-          where name like #{search} 
+          where name like '%${search}%' 
           order by num desc) t2
      where t2.num between #{startRow} and #{endRow} ; 
 </select>
-  
-<!--   
 
-<select id="findActiveBlogLike" 
-     resultType="Blog">
-  SELECT * FROM BLOG WHERE state = ‘ACTIVE’ 
-  <if test="title != null">
-    AND title like #{title}
-  </if>
-  <if test="author != null and author.name != null">
-    AND author_name like #{author.name}
-  </if>
-</select>
-
-
-
-
-
-
-
-
-<select id="findActiveBlogLike" 
-     resultType="Blog">
-  SELECT * FROM BLOG WHERE state = ‘ACTIVE’
-  <choose>
-    <when test="title != null">
-      AND title like #{title}
-    </when>
-    <when test="author != null and author.name != null">
-      AND author_name like #{author.name}
-    </when>
-    <otherwise>
-      AND featured = 1
-    </otherwise>
-  </choose>
-</select>
-
-
-
-
-
-
-
-
-
-
-
-
-<select id="findActiveBlogLike" 
-     resultType="Blog">
-  SELECT * FROM BLOG 
-  WHERE 
-  <if test="state != null">
-    state = #{state}
-  </if> 
-  <if test="title != null">
-    AND title like #{title}
-  </if>
-  <if test="author != null and author.name != null">
-    AND author_name like #{author.name}
-  </if>
-</select>
-
-
-
-
-
-
-
-
-<select id="selectPostIn" resultType="domain.blog.Post">
-  SELECT *
-  FROM POST P
-  WHERE ID in
-  <foreach item="item" index="index" collection="list"
-      open="(" separator="," close=")">
-        #{item}
-  </foreach>
-</select>
-
-
-
-
-
-
-
-
-
-<update id="updateAuthorIfNecessary">
-  update Author
-    <set>
-      <if test="username != null">${username}=#{username},</if>
-      <if test="password != null">password=#{password},</if>
-      <if test="email != null">email=#{email},</if>
-      <if test="bio != null">bio=#{bio}</if>
-    </set>
-  where id=#{id}
-</update>
-
-
-
-
-
-
-
-
-<delete id="">
-
+<delete id="delete" parameterType="com.gms.web.command.CommandDTO">
+	delete from member where member_id like #{search};
 </delete>
- -->
+  
+  
+
+
+
 
 
 

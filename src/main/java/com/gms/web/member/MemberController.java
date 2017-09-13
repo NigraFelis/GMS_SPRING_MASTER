@@ -7,16 +7,21 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.gms.web.command.CommandDTO;
 import com.gms.web.common.HomeController;
+import com.gms.web.complex.PathFactory;
 import com.gms.web.proxy.BlockHandler;
 import com.gms.web.proxy.PageHandler;
 import com.gms.web.proxy.PageProxy;
 @Controller
-@RequestMapping("/member")
+@SessionAttributes("student")
+@RequestMapping({"/member","/student"})
 public class MemberController {
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	@Autowired MemberService service;
@@ -65,10 +70,7 @@ public class MemberController {
 		model.addAttribute("count", count);
 		return"auth:member/member_list.tiles";
 	}
-	@RequestMapping("/delete")
-	public String delete() {
-		return"auth:member/member_delete.tiles";
-	}
+	
 	@SuppressWarnings("unchecked")
 	@RequestMapping("/search/{search}")
 	public String search(@PathVariable String search, Model model) {
@@ -81,6 +83,38 @@ public class MemberController {
 		//List<StudentDTO> list=(List<StudentDTO>) service.findById(cmd);
 		//pxy.execute(model, result, list);
 		return "auth:member/member_list.tiles";
+	}
+	@RequestMapping("/delete/{id}")
+	public String memberDelete(@PathVariable String id) {
+		logger.info("memberDelete :","진입");
+		System.out.println("삭제할 id: "+id);
+		cmd.setSearch(id);
+		service.remove(cmd);
+		return"redirect:/member/member_list/1";
+	}
+	@RequestMapping("/detail/{id}")
+	public String memberDetail(@PathVariable String id,Model model) {
+		logger.info("memberDetail :","진입");
+		System.out.println("조회할 id: "+id);
+		cmd.setSearch(id);
+		model.addAttribute("student" , service.findById(cmd));
+		return"auth:member/member_detail.tiles";
+	}
+	@RequestMapping(value="/update",method=RequestMethod.POST)
+	public String updateStudent(@ModelAttribute MemberDTO stu) {
+		logger.info("memberUpdate :","진입");
+		service.modify(stu);
+		System.out.println("id :: " 
+				+stu.getId()) ;
+		return "redirect:/member/detail/"+stu.getId();
+	}
+	@RequestMapping(value="join",method=RequestMethod.POST)
+	public String joinStudent(@ModelAttribute MemberDTO bean) {
+		logger.info("memberJoin :","진입");
+		
+		service.add(bean);
+		//return "auth:common/main.tiles";
+		return"redirect:/member/member_list/1";
 	}
 
 }

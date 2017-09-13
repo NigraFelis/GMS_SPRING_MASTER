@@ -41,6 +41,9 @@
 	</form>
 </div>
 
+<script>
+app.member.init();
+</script>
 
 
 

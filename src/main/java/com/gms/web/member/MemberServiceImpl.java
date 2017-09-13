@@ -17,17 +17,21 @@ public class MemberServiceImpl implements MemberService{
 	@Autowired MemberMapper mapper;
 	@Autowired MemberDTO member;
 	@Autowired MemberService service;
-	@Override
-	public String add(Map<String,Object> map) {
+	/*@Override
+	public int add(Map<String,Object> map) {
 		System.out.println("member service 진입");
 		MemberDTO m=(MemberDTO)map.get("member");
 		System.out.println("넘어온 회원 정보:"+m.toString());
 		@SuppressWarnings("unchecked")
 		List<MajorDTO>list=(List<MajorDTO>)map.get("major");
 		System.out.println("넘어온 수강과목:"+list);
-		String rs=null;
+		int rs=0;
 		System.out.println("서비스 RS :"+rs);
 		return rs;
+	}*/
+	@Override
+	public int add(MemberDTO bean) {
+		return mapper.insert(bean);
 	}
 	@Override
 	public List<?> list(CommandDTO cmd) {
@@ -44,12 +48,6 @@ public class MemberServiceImpl implements MemberService{
 	public StudentDTO findById(CommandDTO cmd) {
 		return mapper.selectById(cmd);
 	}
-
-	/*@Override
-	public String count(CommandDTO cmd) {
-		
-		return null;
-	}*/
 	
 	@Override
 	public String count() {
@@ -60,16 +58,13 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 	@Override
-	public String modify(MemberDTO bean) {		
-		String msg="";
-		return msg;
+	public int modify(MemberDTO bean) {		
+		return mapper.update(bean);
 	}
 
 	@Override
-	public String remove(CommandDTO cmd) {
-		String msg="";
-		
-		return msg;
+	public int remove(CommandDTO cmd) {
+		return mapper.delete(cmd);
 	}
 	@Override
 	public Map<String,Object> login(CommandDTO cmd) {

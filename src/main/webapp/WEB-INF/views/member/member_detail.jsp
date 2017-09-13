@@ -8,27 +8,27 @@
             <div class="row">
                 <div class="col-md-3 col-xs-12 col-sm-6 col-lg-3">
                   <div class="thumbnail text-center photo_view_postion_b" >
-                    <img id="profileBtn" src="${img}/song.jpg" alt="stack photo" class="img">
+                    <img id="profileBtn" src="${path.img}/defaultimg.jpg" alt="stack photo" class="img">
                   </div>
                 </div>
                 <div class="col-md-9 col-xs-12 col-sm-6 col-lg-9">
                     <div class="" style="border-bottom:1px solid black">
-                      <span style="font-size: 50px">${requestScope.student.name}</span>
+                      <span style="font-size: 50px">${student.name}</span>
                       &nbsp;&nbsp;&nbsp;&nbsp;
-                      <button id="updateBtn" onclick="moveTo('member','member_update')">정보수정</button>
+                      <button id="updateBtn" onclick="app.controller.moveTo('member','member_update')">정보수정</button>
                     </div>
                       <hr>
                     <div class="col-md-6">  
                     <ul class=" details"> 
-                      <li><p><span class="glyphicon glyphicon-credit-card one" style="width:50px;"></span>${requestScope.student.id}</p></li>
-                      <li><p><span class="glyphicon glyphicon-bold" style="width:50px;"></span>${requestScope.student.ssn}</p></li>
-                      <li><p id="detail_phone"><span  class="glyphicon glyphicon-earphone one" style="width:50px;"></span>${requestScope.student.phone}</p></li></ul>
+                      <li><p><span class="glyphicon glyphicon-credit-card one" style="width:50px;"></span>${student.id}</p></li>
+                      <li><p><span class="glyphicon glyphicon-bold" style="width:50px;"></span>${student.ssn}</p></li>
+                      <li><p id="detail_phone"><span  class="glyphicon glyphicon-earphone one" style="width:50px;"></span>${student.phone}</p></li></ul>
                     </div>
                     <div class="col-md-6">  
-                      <p><span class="glyphicon glyphicon-calendar one" style="width:50px;"></span>${requestScope.student.regdate}</p>
-                      <p id="detail_title"><span  class="glyphicon glyphicon-blackboard" style="width:50px;"></span>${requestScope.student.subjects}</p>
-                      <p id="detail_email"><span class="glyphicon glyphicon-envelope one" style="width:50px;"></span>${requestScope.student.email}</p>
-                      <p id="detail_id" style="visibility:hidden;"><span class="glyphicon glyphicon-envelope one" style="width:50px;"></span>${requestScope.student.id}</p>
+                      <p><span class="glyphicon glyphicon-calendar one" style="width:50px;"></span>${student.regdate}</p>
+                      <p id="detail_title"><span  class="glyphicon glyphicon-blackboard" style="width:50px;"></span>${student.subjects}</p>
+                      <p id="detail_email"><span class="glyphicon glyphicon-envelope one" style="width:50px;"></span>${student.email}</p>
+                      <p id="detail_id" style="visibility:hidden;"><span class="glyphicon glyphicon-envelope one" style="width:50px;"></span>${student.id}</p>
                     </div>
                 </div>
               </div>
@@ -79,7 +79,7 @@
           </div>
       </div>
 <script>
-memberDetail.init();
+app.memberDetail.init();
 </script>
       
       

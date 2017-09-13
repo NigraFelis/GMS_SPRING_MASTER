@@ -7,19 +7,20 @@
 			<div class="row main">
 				<div class="panel-heading">
 	               <div class="panel-title text-center">
-	               		<h1 id="id" class="title"></h1>
+	               		<h1 id="i" class="title"></h1>
 	               		<hr />
 	               	</div>
 	            </div> 
 				<div class="main-login main-center">
-					<form class="form-horizontal" method="post" action="#">
+					<form id="update_form" class="form-horizontal">
+				<input id="id" name="id" type="hidden" class="form-control" value="${student.id}" readonly  placeholder=""/>
 						
 						<div class="form-group">
-							<label for="name" class="cols-sm-2 control-label">${requestScope.student.id}</label>
+							<label for="name" class="cols-sm-2 control-label">NAME</label>
 							<div class="cols-sm-10">
 								<div class="input-group">
 									<span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
-									<input id="name" type="text" class="form-control" name="name" placeholder=""/>
+									<input id="name" name="name" type="text" class="form-control" value="${student.name}" readonly  placeholder=""/>
 								</div>
 							</div>
 						</div>
@@ -29,7 +30,7 @@
 							<div class="cols-sm-10">
 								<div class="input-group">
 									<span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
-									<input id="email" type="text" class="form-control" name="email" placeholder=""/>
+									<input id="email" type="text" class="form-control" name="email" placeholder="" value="${student.email}"/>
 								</div>
 							</div>
 						</div>
@@ -39,7 +40,7 @@
 							<div class="cols-sm-10">
 								<div class="input-group">
 									<span class="input-group-addon"><i class="fa fa-users fa" aria-hidden="true"></i></span>
-									<input id="phone" name="phone" type="text" class="form-control"  placeholder=""/>
+									<input id="phone" name="phone" type="text" class="form-control"  placeholder="" value="${student.phone}"/>
 								</div>
 							</div>
 						</div>
@@ -49,7 +50,7 @@
 							<div class="cols-sm-10">
 								<div class="input-group">
 									<span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
-									<input id="password" name="password" type="password" class="form-control" data-toggle="popover" placeholder=""/>
+									<input id="password" name="password" type="password" class="form-control" data-toggle="popover" placeholder="" />
 								</div>
 								
 								<span id="result"></span>
@@ -68,7 +69,8 @@
 						</div>
 
 						<div class="form-group ">
-							<button id="confirmBtn" type="button" class="btn btn-primary btn-lg btn-block login-button">UPDATE</button>
+						<!-- onclick="app.controller.updateStudent()" -->
+							<button id="confirmBtn" name="confirmBtn" type="submit" class="btn btn-primary btn-lg btn-block login-button" >UPDATE</button>
 						</div>
 					</form>
 				</div>
@@ -76,7 +78,7 @@
 		</div>
 
 <script>
-memberUpdate.init();
+app.member.init();
 //alert("넘어온아이디  :"+sessionStorage.getItem('id'));
 
 //$(sessionStorage.getItem('id'));

@@ -233,12 +233,21 @@ app.member=(function(){
 	};
 	var onCreate=function(){
 		setContentView();
-		$('#updateBtn').on('click',function(){
-		  sessionStorage.setItem('id',$('#detail_id').text());    
+		$('#confirmBtn').on('click',function(){
+			alert('업데이트 버튼 클릭!!');
+	        $('#update_form').attr('method', 'post');	
+	        $('#update_form').attr('action', app.path.ctx()+"/student/update");
+	        
+		  /*sessionStorage.setItem('id',$('#detail_id').text());    
 		  sessionStorage.setItem('phone',$('#detail_phone').text());    
 		  sessionStorage.setItem('email',$('#detail_email').text());
 		  sessionStorage.setItem('title',$('#detail_title').text());
-		  app.controller.moveTo('member','member_update');
+		  app.controller.moveTo('member','member_update');*/
+		});
+		$('#join_yes_btn').on('click',function(){
+			alert('insert button click');
+			$('#join_form').attr('method', 'post');	
+	        $('#join_form').attr('action', app.path.ctx()+"/student/join");
 		});
 	};
 	var setContentView=function(){
@@ -312,18 +321,18 @@ app.controller=(function(){
 		location.href=
         app.path.ctx()+"/"+dir+".do?action=list&page="+page+"&pageNumber="+pageNumber;
     };*/
-	var updateStudent = function (id,email){
-		alert('수정할 id'+id);
-		location.href=app.path.ctx()+"/member.do?action=update&page=member_update&id="+id+"&email="+email;
+	var updateStudent = function (){
+		alert('상세에서 수정하기로 가기');
+		$('#confirmBtn').attr('action', app.path.ctx()+"/student/update/");
+        $('#confirmBtn').attr('method', 'post');
 	};
 	var deleteStudent=function(id){
-		alert('삭제할 id'+id);
-		location.href=app.path.ctx()+"/member.do?action=delete&page=member_list&id="+id;
+		alert('삭제할 id: '+id);
+		location.href=app.path.ctx()+"/member/delete/"+id;
 	};
 	var detailStudent = function(id){
 		alert('조회할 id'+id);
-		location.href=
-			app.path.ctx()+"/member.do?action=detail&page=member_detail&id="+id;
+		location.href=app.path.ctx()+"/member/detail/"+id;
 	};
 	var searchStudent= function(){
 		var search=$('#search').val();

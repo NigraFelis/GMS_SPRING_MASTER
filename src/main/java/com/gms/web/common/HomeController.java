@@ -9,6 +9,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.SessionAttributes;
+
 import com.gms.web.complex.PathFactory;
 
 
@@ -16,6 +18,7 @@ import com.gms.web.complex.PathFactory;
  * Handles requests for the application home page.
  */
 @Controller
+@SessionAttributes("path")
 public class HomeController {
    
    private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
@@ -27,8 +30,8 @@ public class HomeController {
       String pattern = "yyyy년-MM월-dd일 hh시 mm분 ss초";
       SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
       String date = simpleDateFormat.format(new Date());
-      session.setAttribute("path", PathFactory.create());
-      
+      //session.setAttribute("path", PathFactory.create());
+      model.addAttribute("path",PathFactory.create());
       
       return "public:common/home.tiles";
    }
