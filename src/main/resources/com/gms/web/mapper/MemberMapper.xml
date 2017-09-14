@@ -35,8 +35,8 @@ where member_id like #{id}
 
 
 <insert id="insert" parameterType="com.gms.web.member.MemberDTO">
-INSERT INTO member(member_id,name,password,ssn,phone,email,profile,regdate)
-					VALUES(#{id},#{name},#{password},#{ssn},#{phone},#{email},#{profile},now());
+INSERT INTO member(member_id,name,password,ssn,regdate,phone,email,profile)
+					VALUES(#{id},#{name},#{password},#{ssn},now(),#{phone},#{email},#{profile});
 </insert>
 
 

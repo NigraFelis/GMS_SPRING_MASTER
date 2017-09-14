@@ -7,16 +7,25 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.gms.web.command.CommandDTO;
+import com.gms.web.grade.GradeDTO;
 import com.gms.web.grade.MajorDTO;
+import com.gms.web.grade.SubjectDTO;
+import com.gms.web.mapper.GradeMapper;
 import com.gms.web.mapper.MemberMapper;
 
 @Service
+
 public class MemberServiceImpl implements MemberService{
 	@Autowired MemberMapper mapper;
-	@Autowired MemberDTO member;
 	@Autowired MemberService service;
+	@Autowired MajorDTO major;
+	@Autowired GradeMapper gMaper;
+	@Autowired CommandDTO cdm;
+	@Autowired MemberDTO member;
+	
 	/*@Override
 	public int add(Map<String,Object> map) {
 		System.out.println("member service 진입");
@@ -29,9 +38,20 @@ public class MemberServiceImpl implements MemberService{
 		System.out.println("서비스 RS :"+rs);
 		return rs;
 	}*/
-	@Override
-	public int add(MemberDTO bean) {
-		return mapper.insert(bean);
+	@Override @Transactional
+	public int add(Map<?,?>map) {
+		System.out.println("member service 진입");
+		member=(MemberDTO) map.get("member");
+		@SuppressWarnings("unchecked")
+		List<MajorDTO> list=(List<MajorDTO>)map.get("list");
+		System.out.println("ID #####"+member.getId());
+		System.out.println("LIST ######"+list);
+		mapper.insert(member);
+		gMaper.insertMajor(list);
+		int rs = 0;
+		
+		
+		return rs;
 	}
 	@Override
 	public List<?> list(CommandDTO cmd) {

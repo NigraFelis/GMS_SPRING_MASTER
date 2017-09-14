@@ -1,6 +1,9 @@
 package com.gms.web.member;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,11 +14,13 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.gms.web.command.CommandDTO;
 import com.gms.web.common.HomeController;
 import com.gms.web.complex.PathFactory;
+import com.gms.web.grade.MajorDTO;
 import com.gms.web.proxy.BlockHandler;
 import com.gms.web.proxy.PageHandler;
 import com.gms.web.proxy.PageProxy;
@@ -27,7 +32,41 @@ public class MemberController {
 	@Autowired MemberService service;
 	@Autowired CommandDTO cmd;
 	@Autowired PageProxy pxy;
-
+	@Autowired MemberDTO member;
+	@Autowired MajorDTO major;
+	
+	
+	@RequestMapping(value="add",method=RequestMethod.POST)
+	public String addStudent(
+			@ModelAttribute MemberDTO member,
+			@RequestParam("subject") List<String> list) {
+		logger.info("memberJoin :","진입");
+		
+		logger.info("등록 ID : {}",member.getId());
+		logger.info("등록 이름 : {}",member.getName());
+		logger.info("등록 비번 : {}",member.getPassword());
+		System.out.println("등록과목:"+list);
+		logger.info("등록 과목 : {}",list);
+		
+		Map<String, Object>paramMap=new HashMap<>();
+		paramMap.put("member",member);
+		List<MajorDTO> paramList = new ArrayList<>();
+		MajorDTO mj = null;
+		for(String m:list) {
+			int random = (int) (Math.random()*9999)+1000;
+			mj=new MajorDTO();
+			mj.setId(member.getId());
+			mj.setMajorId(String.valueOf(random));
+			mj.setSubjId(m);
+			mj.setTitle(m);
+			paramList.add(mj);
+		}
+		
+		paramMap.put("list", paramList);
+		service.add(paramMap);
+		return"redirect:/member/member_list/1";
+	}
+	
 
 	@RequestMapping("/member_list/{pno}")
 	@SuppressWarnings("unchecked")
@@ -108,13 +147,6 @@ public class MemberController {
 				+stu.getId()) ;
 		return "redirect:/member/detail/"+stu.getId();
 	}
-	@RequestMapping(value="join",method=RequestMethod.POST)
-	public String joinStudent(@ModelAttribute MemberDTO bean) {
-		logger.info("memberJoin :","진입");
-		
-		service.add(bean);
-		//return "auth:common/main.tiles";
-		return"redirect:/member/member_list/1";
-	}
+	
 
 }

@@ -13,8 +13,7 @@ import com.gms.web.member.StudentDTO;
 
 @Repository
 public interface MemberMapper {
-	/*public int insert(Map<?,?>map);*/
-	public int insert(MemberDTO bean);
+	public int insert(MemberDTO member);
 	public List<?> selectAll(CommandDTO cmd);
 	public List<?> selectByName(CommandDTO cmd);
 	public StudentDTO selectById(CommandDTO cmd);

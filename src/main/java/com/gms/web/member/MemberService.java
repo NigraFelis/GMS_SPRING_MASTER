@@ -10,7 +10,7 @@ import com.gms.web.command.CommandDTO;
 @Component
 public interface MemberService {
 	/*public int add(Map<String,Object> map);*/
-	public int add(MemberDTO bean);
+	public int add(Map<?,?>map);
 	public List<?> list(CommandDTO cmd);
 	public List<?> findByName(CommandDTO cmd);
 	public StudentDTO findById(CommandDTO cmd);
