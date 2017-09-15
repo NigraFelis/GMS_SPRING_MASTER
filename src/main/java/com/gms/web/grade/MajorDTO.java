@@ -9,7 +9,4 @@ import lombok.Data;
 @Lazy @Component @Data
 public class MajorDTO {
 	private String majorId,title, id, subjId;
-
-	
-
 }
