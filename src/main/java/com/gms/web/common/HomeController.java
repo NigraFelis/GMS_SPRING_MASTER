@@ -33,7 +33,8 @@ public class HomeController {
       //session.setAttribute("path", PathFactory.create());
       model.addAttribute("path",PathFactory.create());
       
-      return "public:common/home.tiles";
+      //return "public:common/home.tiles";
+      return "index";
    }
    
 }
