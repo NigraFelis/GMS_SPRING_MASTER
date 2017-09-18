@@ -14,10 +14,7 @@
 </head>
 <body>
 <div id="wrapper"></div>
-	Hi Ajax !!
-	Hi Ajax !!
-	Hi Ajax !!
-	
+
 </body>
 
 <script>
