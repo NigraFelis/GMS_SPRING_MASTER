@@ -13,8 +13,9 @@
 	<script src="${path.js}/meta.js"></script> 
 </head>
 <body>
-<div id="wrapper"></div>
-
+	<div id="wrapper"></div>
+	<div id="navbar"></div>
+	<div id="container"></div>
 </body>
 
 <script>
