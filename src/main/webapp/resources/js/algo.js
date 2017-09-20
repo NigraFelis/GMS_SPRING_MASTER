@@ -8,22 +8,24 @@ var series={
 		      }
 		      return sum;
 		   },
-		   switchSeries : (s,e)=>{
-		      var sum = 0;
-		      var i=s-1;
-		      var sw = 0;
-		      do{
-		         i++;
-		         if(sw==0){
-		            sum+=i;
-		            sw=1;
-		         }else{
-		            sum-=i;
-		            sw=0;
-		         }
-		      }while(i<e);
-		      return sum;   
-		   },
+		   switchSeries : ()=>{
+				var sum=0;
+				var i=0;
+				var sw=0;
+				do{
+					i++;
+					if(sw==0){
+						sum += i;
+						sw = 1;
+						
+					}else{
+						sum -= i;
+						sw = 0;
+					}
+				}while(i<100);
+				return sum;
+				
+			},
 		   diffSeries : () =>{
 				var i=0; 
 				var j=1;
@@ -47,7 +49,6 @@ var series={
 				return r;
 		  },
 		   fibonacci : x =>{
-			   alert('확인 -->'+x);
 				var a = 1; 
 				var b = 1;
 				var y = 2;
@@ -63,4 +64,70 @@ var series={
 		 }
 		
 }
-
+var sort = {
+		selection : x=>{
+			console.log('start'+x);
+			var i,j,temp;
+			for (i=0;i<x.length;i++) {
+				for (j=i;j<x.length;j++) {
+	               if (x[i]*1 > x[j+1]*1){      
+	                  temp=x[i];
+	                  x[i]=x[j+1];
+	                  x[j+1]=temp;
+	               }
+				}
+			}
+			console.log('end'+x);
+			return x;
+		},
+		bubble : x=>{
+			 console.log('start'+x);
+	         var i,j,temp=0;
+	         for (i=0;i<x.length;i++) {
+	            for (j=0;j<x.length;j++) {
+	               if (x[j]*1 > x[j+1]*1){      
+	                  temp=x[j];
+	                  x[j]=x[j+1];
+	                  x[j+1]=temp;
+	               }
+	            }
+	         }
+	         console.log('end'+x);
+	         return x;
+		},
+		insertion : x=>{
+			 console.log('start'+x);
+			 var i=0,j=0,k=0;
+	         	for(i=0;i<x.length;i++){
+	         		for(j=0;j<x.length;j++){
+	         			if(x[i]*1<x[j]*1){
+	         				k=x[i];
+	         				x[i]=x[j];
+	         				x[j]=k;
+	         			}
+	         		}
+	         	}
+	         console.log('end'+x);
+	         return x;
+		},
+		ranking : x=>{
+			 console.log('start'+x);
+			 var a = x;
+			 var b = new Array(a.length);
+			 var rank = 1;
+			 for (var i=0; i<a.length; i++) {
+			     rank = 1;
+			     for (var j=0; j<a.length; j++) {
+			         if (a[i] > a[j]) rank++;
+			     }
+			     for (var j=0; j<b.length; j++) {
+			         if (b[j] == rank) rank++;
+			     }
+			     
+			     b[i] = rank;
+			 }
+	         console.log('end'+x);
+	         return x;
+		}
+	      
+}
