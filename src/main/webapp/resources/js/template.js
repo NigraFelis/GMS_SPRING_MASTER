@@ -100,11 +100,21 @@ var introUI={
 };
 var compUI={
 	//div: ()=>{return $('',{});},//돔리턴 기본형
+	br : ()=>{return $('<br/>')},
 	div: x=>{return $('<div>',{id:x });},//돔리턴 기본형
+	h1 : x => {return $('<h1/>', {id:x});}, 
+	span : x => {return $('<span/>', {id:x});},
+	iTxt : x=>{return $('<span/>',{id:x, type:'text'});},
+	aBtn : x=>{return $('<a>',{href:'#',role:'button',id:x});},
+	iBtn : x=>{return $('<input/>',{id:x, type:'button'});},
 	image : (x,y)=>{return $('<img/>',{id : x,src : y});},
-	input : (x,y)=>{return $('<input/>',{id : x, type : y});},
-	h1 : x => {return $('<h1/>', {id : x});}, 
-	span : x => {return $('<span/>', {id : x});}
+	input : (x,y)=>{return $('<input/>',{id:x, type : y});},
+	
+	table : ()=>{return $('<table/>',{class :'table table-striped'});},
+	tr : x=>{return $('<tr/>',{id :x});},
+	th : ()=>{return $('<th/>')},
+	td : ()=>{return $('<td/>')},
+	tbody : ()=>{return $('<tbody/>')},
 };
 
 var algoUI={
@@ -121,4 +131,19 @@ var algoUI={
 		+'<span id="input_label">입력: &nbsp;&nbsp;</span>'
 		+'<div id="result"></div>';
 	}
+};
+var boardUI={
+	grid : ()=>{
+		return '<table class="table table-striped">'
+		+'		<tr>'
+		+'			<th>NO</th>'
+		+'			<th>제 목</th>'
+		+'			<th>내 용</th>'
+		+'			<th>글쓴이</th>'
+		+'			<th>작성날짜</th>'
+		+'			<th>조회수</th>'
+		+'		</tr>'
+		+'	</table>';
+		
+	}	
 };

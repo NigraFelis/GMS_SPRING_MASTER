@@ -11,7 +11,7 @@
 </select>
 
 <select id="login" resultType="com.gms.web.member.MemberDTO"
-				parameterType="com.gms.web.command.CommandDTO"
+				parameterType="com.gms.web.command.Command"
 >
 	SELECT
 		member_id AS id,
@@ -42,7 +42,7 @@ INSERT INTO member(member_id,name,password,ssn,regdate,phone,email,profile)
 
 
 <select id="selectAll" resultType="com.gms.web.member.StudentDTO"
-				parameterType="com.gms.web.command.CommandDTO"
+				parameterType="com.gms.web.command.Command"
 >
 select t.*
 	from (select @RNUM := @RNUM +1 as NUM,s.* 
@@ -52,7 +52,7 @@ select t.*
 
 
 <select id="selectById" resultType="com.gms.web.member.StudentDTO"
-					parameterType="com.gms.web.command.CommandDTO"
+					parameterType="com.gms.web.command.Command"
 >
    SELECT
 		member_id AS id,
@@ -68,7 +68,7 @@ select t.*
  
 
  
-<select  id="selectByName" resultType="com.gms.web.member.StudentDTO" parameterType="com.gms.web.command.CommandDTO">
+<select  id="selectByName" resultType="com.gms.web.member.StudentDTO" parameterType="com.gms.web.command.Command">
  select t2.*
      from (select @rnum := @rnum +1 as num, s.*
           from student s, (select @rnum := 0) b 
@@ -77,7 +77,7 @@ select t.*
      where t2.num between #{startRow} and #{endRow} ; 
 </select>
 
-<delete id="delete" parameterType="com.gms.web.command.CommandDTO">
+<delete id="delete" parameterType="com.gms.web.command.Command">
 	delete from member where member_id like #{search};
 </delete>
   

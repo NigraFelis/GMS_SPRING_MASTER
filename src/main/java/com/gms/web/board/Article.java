@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 import lombok.Data;
 
 @Lazy @Component @Data
-public class ArticleDTO{
+public class Article{
 	
 	private String id,title,content,regdate;
 	private int articleSeq,hitcount;

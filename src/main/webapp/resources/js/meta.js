@@ -15,6 +15,7 @@ meta.index=(function(){
 	var $wrapper,$navbar,$container,ctx,img,js,css,
 		temp,algo;
 	var init=function(){
+			ctx=$$('x');
 			js=$$('j');
 			temp=js+'/template.js';
 			algo=js+'/algo.js';
@@ -25,15 +26,54 @@ meta.index=(function(){
 		};
 	var onCreate=function(){
 		$.getScript(temp,(x,y)=>{
-			$container.append(compUI.div('content')).css({'width':'100%'});
-			$('#content').css({'width':'50%','margin':'0 auto'}).append(compUI.image('loading',img+'/loading.gif'));
-			$('#loading').after(compUI.h1('h-btn'));
-			$('#h-btn').append(compUI.span('btn1')).attr('display','inline');
-			$('#btn1').html('알고리즘').addClass('label label-default');
-			$('#h-btn').append(compUI.span('btn2')).attr('display','inline');
+			compUI.div('content').css({'width':'100%'}).appendTo($container);
+			$content=$('#content');
+			compUI.image('loading',img+'/loading.gif').css({'width':'40%','margin':'0 auto'}).appendTo($content);
+			compUI.h1('hBtn').attr('display','inline').appendTo($content);
+			$hBtn=$('#hBtn');
+			
+			compUI.span('bbsBtn').html('게시판관리').addClass('label label-danger').css({'margin-left':'10px'}).appendTo($hBtn).click(()=>{
+				alert('게시판 가기');
+				var url=ctx+'/get/board/list';
+				$.getJSON(url,x=>{
+					alert('x msg is  '+x.msg);
+					//여기서 부터 보드 게시판 동적 UI코딩
+					$('#navbar').html(introUI.navbar());//네비 바 넣고
+					$container.empty();//컨테이너 비우고
+					$container.append(compUI.div('content')).css({'width':'100%'});//컨텐츠 컨테이너 넣고
+					$('#content').css({'width':'80%','margin':'0 auto'});//컨텐츠 정렬
+					//$('#content').html(boardUI.grid()); //스트링값으로 헤더 받아오는 경우
+					
+					
+					//여기서 부터 헤더 동적UI
+					$('#content').append(compUI.table());//테이블 넣고
+					$('table').append(compUI.tbody()); //부트스트렙 쓰기 위한 테그
+					$('table').append(compUI.tr('h1'));//한줄 넣고
+					compUI.tr('h1').appendTo($('#table'));
+					compUI.td().text('NO').appendTo($('tr'));
+					compUI.td().text('제목').appendTo($('tr'));
+					compUI.td().text('내용').appendTo($('tr'));
+					compUI.td().text('글쓴이').appendTo($('tr'));
+					compUI.td().text('작성날짜').appendTo($('tr'));
+					compUI.td().text('조회수').appendTo($('tr'));
+					
+					
+					//여기서 부터  로우
+					for(var i=0; i<8; i++){
+						$('table').append(compUI.tr(i));
+						for(var j=0; j<6; j++){
+							$('#'+i).append(compUI.td());
+						};
+					};
+
+				});
+			});
+
+			
+			$('#hBtn').append(compUI.span('btn1')).attr('display','inline');
+			$('#btn1').html('알고리즘').addClass('label label-default').css({'margin-left':'10px'});
+			$('#hBtn').append(compUI.span('btn2')).attr('display','inline');
 			$('#btn2').html('회원관리').addClass('label label-primary').css({'margin-left':'10px'});
-			$('#h-btn').append(compUI.span('btn3')).attr('display','inline');
-			$('#btn3').html('게시판 관리').addClass('label label-danger').css({'margin-left':'10px'});
 			$('#btn1').click(()=>{
 				$container.empty();
 				//meta.auth.init();	
@@ -385,7 +425,6 @@ meta.navbar=(function(){
 					}
 				});
 			});
-			
 			
 			
 			
