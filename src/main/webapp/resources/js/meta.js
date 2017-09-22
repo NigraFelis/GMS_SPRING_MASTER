@@ -25,7 +25,7 @@ meta.index=(function(){
 			onCreate();
 		};
 	var onCreate=function(){
-		$.getScript(temp,(x,y)=>{
+		$.getScript(temp,()=>{
 			compUI.div('content').css({'width':'100%'}).appendTo($container);
 			$content=$('#content');
 			compUI.image('loading',img+'/loading.gif').css({'width':'40%','margin':'0 auto'}).appendTo($content);
@@ -35,36 +35,72 @@ meta.index=(function(){
 			compUI.span('bbsBtn').html('게시판관리').addClass('label label-danger').css({'margin-left':'10px'}).appendTo($hBtn).click(()=>{
 				alert('게시판 가기');
 				var url=ctx+'/get/board/list';
-				$.getJSON(url,x=>{
-					alert('x msg is  '+x.msg);
+				$.getJSON(url,data=>{
+					//alert('x msg is  '+x.msg);
 					//여기서 부터 보드 게시판 동적 UI코딩
 					$('#navbar').html(introUI.navbar());//네비 바 넣고
 					$container.empty();//컨테이너 비우고
 					$container.append(compUI.div('content')).css({'width':'100%'});//컨텐츠 컨테이너 넣고
 					$('#content').css({'width':'80%','margin':'0 auto'});//컨텐츠 정렬
-					//$('#content').html(boardUI.grid()); //스트링값으로 헤더 받아오는 경우
+					$('#content').html(bbsUI.tbl()); //스트링값으로 헤더 받아오는 경우
 					
-					
-					//여기서 부터 헤더 동적UI
-					$('#content').append(compUI.table());//테이블 넣고
-					$('table').append(compUI.tbody()); //부트스트렙 쓰기 위한 테그
-					$('table').append(compUI.tr('h1'));//한줄 넣고
-					compUI.tr('h1').appendTo($('#table'));
-					compUI.td().text('NO').appendTo($('tr'));
-					compUI.td().text('제목').appendTo($('tr'));
-					compUI.td().text('내용').appendTo($('tr'));
-					compUI.td().text('글쓴이').appendTo($('tr'));
-					compUI.td().text('작성날짜').appendTo($('tr'));
-					compUI.td().text('조회수').appendTo($('tr'));
-					
-					
-					//여기서 부터  로우
-					for(var i=0; i<8; i++){
-						$('table').append(compUI.tr(i));
-						for(var j=0; j<6; j++){
-							$('#'+i).append(compUI.td());
-						};
-					};
+					/*var a=[
+						{
+							a : 1,
+							b : '한국인사',
+							c : '안녕',
+							d : '길동',
+							e : '2017-09-10',
+							f : 10
+						},
+						{
+							a : 2,
+							b : '미국인사',
+							c : 'Hello',
+							d : 'James',
+							e : '2017-09-10',
+							f : 20
+						},
+						{
+							a : 3,
+							b : '중국인사',
+							c : '니하오',
+							d : '마오',
+							e : '2017-09-10',
+							f : 30
+						},
+						{	
+							a : 4,
+							b : '일본인사',
+							c : '니하오',
+							d : '아베',
+							e : '2017-09-10',
+							f : 40
+						},
+						{
+							a : 5,
+							b : '태국인사',
+							c : '사와디캄',
+							d : '창',
+							e : '2017-09-10',
+							f : 50
+						}
+					];*/
+					var tr='';
+					alert('결과 : '+data.result)
+					$.each(data.list,(i,j)=>{
+						tr+= '<tr style="height: 25px;">'
+							+'<td>'+j.articleSeq+'</td>'
+							+'<td>'+j.title+'</td>'
+							+'<td>'+j.content+'</td>'
+							+'<td>'+j.id+'</td>'
+							+'<td>'+j.regdate+'</td>'
+							+'<td>'+j.hitcount+'</td>'
+							+'</tr>';
+					});
+					console.log('tr : '+tr);
+					//$content.html(bbsUI.tbl());
+					$('#tbody').html(tr);
 
 				});
 			});

@@ -132,18 +132,24 @@ var algoUI={
 		+'<div id="result"></div>';
 	}
 };
-var boardUI={
-	grid : ()=>{
-		return '<table class="table table-striped">'
-		+'		<tr>'
-		+'			<th>NO</th>'
-		+'			<th>제 목</th>'
-		+'			<th>내 용</th>'
-		+'			<th>글쓴이</th>'
-		+'			<th>작성날짜</th>'
-		+'			<th>조회수</th>'
-		+'		</tr>'
-		+'	</table>';
-		
-	}	
+var bbsUI={
+	tbl : ()=>{
+		var tbl= '<table id="tbl"  style = "margin:0 auto; width: 1100px; text-align:left class="table table-striped">'
+			+'<thead><tr style="height: 25px;">';
+		var a=[{width:'5%',txt:'NO'},
+			{width:'20%',txt:'제목 '},
+			{width:'36%',txt:'내 용'},
+			{width:'15%',txt:'글쓴이'},
+			{width:'15%',txt:'작성일'},
+			{width:'9%',txt:'조회수'}];
+		$.each(a,function(i,j){
+			tbl+='<th style="width: '+j.width
+					+'; text-align: center;">'+j.txt+'</th>'
+		});
+		tbl+='</tr></thead><tbody id=tbody>'
+		tbl+='</tbody></table></div>';
+		return tbl;
+	}
+	
+	
 };

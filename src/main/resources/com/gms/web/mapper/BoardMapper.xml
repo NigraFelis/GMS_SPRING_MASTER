@@ -4,13 +4,34 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gms.web.mapper.BoardMapper">
   <resultMap id="respMap" type="com.gms.web.command.RespMap">
+  	<id property="articleSeq" column="article_seq"/>
+  	<result property="memberId" column="id"/>
+  	<result property="title" column="title"/>
+  	<result property="content" column="content"/>
+  	<result property="regdate" column="ragdate"/>
+  	<result property="hitcount" column="hticount"/>
+  	<result property="eamil" column="eamil"/>
+  	<result property="profile" column="profile"/>
+  	<result property="birthdat" column="birthdat"/>
+  	<result property="gender" column="gender"/>
   </resultMap>
+  <resultMap id="article" type="com.gms.web.board.Article">
+  	<id property="articleSeq" column="article_seq"/>
+  	<result property="id" column="id"/>
+  	<result property="title" column="title"/>
+  	<result property="content" column="content"/>
+  	<result property="regdate" column="ragdate"/>
+  	<result property="hitcount" column="hticount"/>
+  </resultMap>
+
+  <select id="selectSome" resultMap="article" parameterType="com.gms.web.command.Command">
+  	select * from board
+  </select>
+
   
   <insert id="insert" parameterType="com.gms.web.command.Command">
   </insert>
   
-  <select id="selectSome" resultType="com.gms.web.command.RespMap" parameterType="com.gms.web.command.Command">
-  </select>
   
   <select id="selectOne" resultType="com.gms.web.command.RespMap" parameterType="com.gms.web.command.Command">
   </select>
