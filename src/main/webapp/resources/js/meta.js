@@ -34,41 +34,7 @@ meta.index=(function(){
 			
 			compUI.span('bbsBtn').html('게시판관리').addClass('label label-danger').css({'margin-left':'10px'}).appendTo($hBtn).click(()=>{
 				alert('게시판 가기');
-				var url=ctx+'/get/board/list';
-				$.getJSON(ctx+'/list/board',data=>{
-					alert('총게시글수'+data.total.count);
-					//alert('x msg is  '+x.msg);
-					//여기서 부터 보드 게시판 동적 UI코딩
-					$('#navbar').html(introUI.navbar());//네비 바 넣고
-					$container.empty();//컨테이너 비우고
-					$container.append(compUI.div('content')).css({'width':'100%'});//컨텐츠 컨테이너 넣고
-					$('#content').css({'width':'80%','margin':'0 auto'});//컨텐츠 정렬
-					$('#content').html(bbsUI.tbl()); //스트링값으로 헤더 받아오는 경우
-					$('#content').append(bbsUI.pagenation());
-					//$('#content').prepend(bbsUI.cate());
-					$('#content').prepend(bbsUI.search());
-					$('#total').text('총게시글 수:'+data.total.count);
-					$('#writeBtn').click(e=>{
-						meta.board.write();
-					});
-					
-					var tr='';
-					alert('결과 : '+data.result)
-					$.each(data.list,(i,j)=>{
-						tr+= '<tr style="height: 25px;">'
-							+'<td>'+j.articleSeq+'</td>'
-							+'<td><a onclick="meta.board.detail('+j.articleSeq+')">'+j.title+'</a></td>'
-							+'<td>'+j.content+'</td>'
-							+'<td>'+j.id+'</td>'
-							+'<td>'+j.regdate+'</td>'
-							+'<td>'+j.hitcount+'</td>'
-							+'</tr>';
-					});
-					console.log('tr : '+tr);
-					//$content.html(bbsUI.tbl());
-					$('#tbody').html(tr);
-
-				});
+				meta.board.list();
 			});
 
 			
@@ -103,17 +69,51 @@ meta.index=(function(){
 })();
 
 meta.board=(()=>{
-	var ctx,js,temp;
+	var ctx,js,temp,container;
 	var init=function(){
 		js=$$('j');
 		temp=js+'/template.js';
 		ctx=$$('x');
+		$container = $('#container');
 	};
-/*	var list=x=>{
-		$.getScript(temp,()=>{
+	var list=x=>{
+		init();
+		var url=ctx+'/get/board/list';
+		$.getJSON(ctx+'/list/board',data=>{
+			alert('총게시글수'+data.total.count);
+			//alert('x msg is  '+x.msg);
+			//여기서 부터 보드 게시판 동적 UI코딩
+			$('#navbar').html(introUI.navbar());//네비 바 넣고
+			$container.empty();//컨테이너 비우고
+			$container.append(compUI.div('content')).css({'width':'100%'});//컨텐츠 컨테이너 넣고
+			$('#content').css({'width':'80%','margin':'0 auto'});//컨텐츠 정렬
+			$('#content').html(bbsUI.tbl()); //스트링값으로 헤더 받아오는 경우
+			$('#content').append(bbsUI.pagenation());
+			//$('#content').prepend(bbsUI.cate());
+			$('#content').prepend(bbsUI.search());
+			$('#total').text('총게시글 수:'+data.total.count);
+			$('#writeBtn').click(e=>{
+				meta.board.write();
+			});
 			
+			var tr='';
+			alert('결과 : '+data.result)
+			$.each(data.list,(i,j)=>{
+				tr+= '<tr style="height: 25px;">'
+					+'<td>'+j.articleSeq+'</td>'
+					+'<td><a onclick="meta.board.detail('+j.articleSeq+')">'+j.title+'</a></td>'
+					+'<td>'+j.content+'</td>'
+					+'<td>'+j.id+'</td>'
+					+'<td>'+j.regdate+'</td>'
+					+'<td>'+j.hitcount+'</td>'
+					+'</tr>';
+			});
+			console.log('tr : '+tr);
+			//$content.html(bbsUI.tbl());
+			$('#tbody').html(tr);
 		});
-	}*/
+
+	}
 	var detail= x=>{
 		init();
 		alert('선택한 seq: '+x);
@@ -133,6 +133,7 @@ meta.board=(()=>{
 					$('#title').removeAttr('readonly','true');
 					$('#title').val(data.detail.title);
 					$('#writer').val(data.detail.id);
+					$('#message').val(data.detail.content);
 					$('legend').text('게시글 수정하기');
 					$('#confirmBtn').text('수정하기').attr('id','updateBtn')
 					.click(e=>{
@@ -165,11 +166,53 @@ meta.board=(()=>{
 					$('#cancelBtn').html('취  소')
 					.attr('id','resetBtn').attr('type','reset')
 					.removeAttr('data-toggle')
-					.removeAttr('data-target');
+					.removeAttr('data-target').click(e=>{
+						list();
+					});
 					
 				});
-				$('#cancelBtn').html('삭 제').click(e=>{
-					e.preventDefault();
+				/*$('#cancleBtn').attr('data-toggle','modal')
+	               .attr('data-target','#modal')
+	               .addClass('btn btn-primary')
+	               .html('삭제하기')*/
+				$('#cancelBtn').attr('data-toggle','modal')
+	               .attr('data-target','#modal')
+	               .addClass('btn btn-primary').html('삭 제').click(e=>{									
+					$('#confirmPass').click(e=>{
+						e.preventDefault();
+						var _pass= $('#userPass').val();
+						var _seq=data.detail.articleSeq;
+						var _id=data.detail.id;
+						alert('넘어온 시퀀스와  비번 : '+x+','+_pass);	
+						$.ajax({
+							url : ctx+'/delete/articles/',
+							method : 'post',
+							dataType: 'json',
+							data : JSON.stringify({
+								'articleSeq' : _seq,
+								'regdate' : _pass,
+								'id' : _id
+								//자바 프로퍼티와 일치 시켜줘야함
+							}),
+							contentType : 'application/json',
+							success : d=>{
+								if(d.result==='success'){
+									alert('ajax 통신 성공');
+									list();
+									$('.modal-backdrop fade in').remove();
+									$('.modal-backdrop fade in').removeClass();
+									$('body').removeClass();
+								}else{
+									alert('ajax 통신 실패');
+								};
+								
+								
+							},
+							error : (x,s,m)=>{
+								alert('글 수정시 에러 발생'+m);
+							}
+						});
+					});										
 					//$('#container').empty();
 					//$('#navbar').empty();
 					//meta.index.init();
@@ -177,8 +220,8 @@ meta.board=(()=>{
 			});
 		});
 		
-		
 	};
+	
 	var update=x=>{
 		init();
 		
@@ -213,7 +256,7 @@ meta.board=(()=>{
 			});
 		});
 	};
-	return {detail : detail, write : write};
+	return {detail : detail, write : write, list : list};
 })();
 meta.auth=(function(){
 	var $wrapper,ctx,img,js,css,temp;

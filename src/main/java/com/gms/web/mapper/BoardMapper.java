@@ -5,15 +5,15 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import com.gms.web.board.Article;
-import com.gms.web.command.Command;
+import com.gms.web.command.CommandDTO;
 import com.gms.web.command.ResultMap;
 
 @Repository
 public interface BoardMapper {
-	public String insert(Command cmd);
-	public List<Article> selectList(Command cmd);
-	public Article selectOne(Command cmd);
-	public ResultMap count(Command cmd);
-	public void update(Command cmd);
-	public void delete(Command cmd);
+	public String insert(CommandDTO cmd);
+	public List<Article> selectList(CommandDTO cmd);
+	public Article selectOne(CommandDTO cmd);
+	public ResultMap count(CommandDTO cmd);
+	public void update(CommandDTO cmd);
+	public void delete(CommandDTO cmd);
 }

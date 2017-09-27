@@ -13,7 +13,7 @@
   	<result property="hitcount" column="hticount"/>
   	<result property="eamil" column="eamil"/>
   	<result property="profile" column="profile"/>
-  	<result property="birthdat" column="birthdat"/>
+  	<result property="birthday" column="birthday"/>
   	<result property="gender" column="gender"/>
   </resultMap>
   <resultMap id="article" type="com.gms.web.board.Article">
@@ -49,6 +49,7 @@
   </update>
    
   <delete id="delete" parameterType="com.gms.web.command.Command">
+  	delete from board WHERE article_seq = #{search};
   </delete>
   
 </mapper>
