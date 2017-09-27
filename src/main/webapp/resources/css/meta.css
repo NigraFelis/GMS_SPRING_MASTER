@@ -1,1 +1,17 @@
-@charset "UTF-8";
+@CHARSET "UTF-8";
+/*board_write*/
+.center{
+   margin-top:50px;
+}
+.modal-header{
+   padding-bottom:5px;
+}
+.modal-footer{
+   padding:0;
+}
+.modal-footer .btn-group button{
+   height : 40px;
+   border-top-left-radius : 0;
+   border-top-right-radius : 0;
+   border : none;
+}

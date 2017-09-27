@@ -9,6 +9,6 @@ import lombok.Data;
 public class Article{
 	
 	private String id,title,content,regdate;
-	private int articleSeq,hitcount;
+	private int articleSeq,hitcount,count;
 	
 }
